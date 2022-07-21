@@ -2,6 +2,7 @@ const tx2 = require('tx2');
 const express = require('express');
 
 const app = express();
+const port = process.env.PORT || 5000;
 
 const setConfig = (data, noTrigger = false) => {
     app.locals.data = data;
@@ -20,14 +21,14 @@ tx2.action('change', (data, reply) => {
 
 app.get('/set', (req, res) => {
     setConfig(req.query.data);
-    res.send(`Config set to ${req.query.data}`);
+    res.send(`Config set to ${req.query.data}<br />Navigate to <a href='/'>home</a>`);
 });
 
 app.get('/', (req, res) => {
     res.send(`Config is ${app.locals.data || 'N/A'}`);
 });
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(port, () => {
     app.locals.data = 'init';
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on http://localhost:${port}`)
 });
